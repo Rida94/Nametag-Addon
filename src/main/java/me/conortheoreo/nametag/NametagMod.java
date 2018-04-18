@@ -3,23 +3,37 @@ package me.conortheoreo.nametag;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
 import cc.hyperium.internal.addons.IAddon;
+import me.conortheoreo.nametag.update.VersionChecker;
 import me.conortheoreo.nametag.visual.TagRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.awt.*;
 import java.io.*;
 
 public class NametagMod implements IAddon {
 
     public static boolean SHOW_NAMETAG;
+    public static boolean ENABLE_CHROMA;
     public static EnumChatFormatting NAMETAG_COLOR;
     private static Minecraft mc;
     public static String VERSION = "1.0";
+    VersionChecker vc = new VersionChecker();
+    private int index;
+    private long x;
+    public static int rainbow;
+
+    public NametagMod() {
+        this.index = 0;
+        this.x = 0L;
+        this.rainbow = rainbowEffect(this.index + this.x * 2000.0f, 1.0f).getRGB();
+    }
 
     @Override
     public void onLoad() {
         System.out.println("Sucesfully loaded NametagMod!");
         EventBus.INSTANCE.register(this);
+        vc.run();
     }
 
     @Override
@@ -32,6 +46,14 @@ public class NametagMod implements IAddon {
         EventBus.INSTANCE.register((Object) new TagRenderer());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new NametagCommand(this));
         load();
+    }
+
+
+    private static Color rainbowEffect(final float f, final float fade) {
+        final float hue = (System.nanoTime() + f) / 4.0E9f % 1.0f;
+        final long color = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, 1.0f, 1.0f)), 16);
+        final Color c = new Color((int) color);
+        return new Color(c.getRed() / 255.0f * fade, c.getGreen() / 255.0f * fade, c.getBlue() / 255.0f * fade, c.getAlpha() / 255.0f);
     }
 
     public static void save() {
@@ -63,6 +85,13 @@ public class NametagMod implements IAddon {
             catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    @InvokeEvent
+    public void playerLoggedIn(final JoinHypixelEvent event) {
+        if(vc.getLatestVersion() != VERSION) {
+            mc.thePlayer.addChatMessage(ChatUtils.of("NametagMod Needs an update! Version: " + vc.getLatestVersion() + "." + " Go to: https://github.com/ConorTheOreo/NametagAddon/releases to download the latest release.").setColor(EnumChatFormatting.RED).setBold(true).build());
         }
     }
 

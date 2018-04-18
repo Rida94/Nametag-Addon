@@ -4,6 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import me.conortheoreo.nametag.NametagMod;
+import me.conortheoreo.nametag.all.TrustedUsers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +18,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 
+import java.util.function.Predicate;
+
 public class TagRenderer {
 
     private RenderManager renderManager;
@@ -28,10 +31,9 @@ public class TagRenderer {
     }
 
     @InvokeEvent
-    //public void onRender(final RenderLivingEvent.Specials.Pre event) {
     public void onRender(final RenderPlayerEvent event) {
         if (event.getEntity().isEntityEqual(this.renderManager.livingPlayer) && NametagMod.SHOW_NAMETAG) {
-            this.renderTag(event.getEntity(), 0.0, 0.0, 0.0);
+            this.renderTag(event.getEntity(), 0.0, 0.25, 0.0);
         }
     }
 
