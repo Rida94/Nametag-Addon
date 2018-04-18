@@ -1,5 +1,5 @@
 {
-  "name":"Addon Example",
+  "name":"NameTag Mod Port",
   "version":"1.0",
-  "mainClass":"com.example.AddonExample"
+  "mainClass":"me.conortheoreo.nametag.NametagMod"
 }
