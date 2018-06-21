@@ -17,7 +17,7 @@ public class NametagMod implements IAddon {
     public static boolean ENABLE_CHROMA;
     public static EnumChatFormatting NAMETAG_COLOR;
     private static Minecraft mc;
-    public static String VERSION = "1.0";
+    public static String VERSION = "1.2";
     VersionChecker vc = new VersionChecker();
     private int index;
     private long x;
