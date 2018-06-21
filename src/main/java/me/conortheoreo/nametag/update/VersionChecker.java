@@ -19,7 +19,7 @@ public class VersionChecker implements Runnable {
     public void run() {
         InputStream in = null;
         try {
-            in = new URL("https://paste.ubuntu.com/p/57kZs5MY8V/").openStream();
+            in = new URL("https://raw.githubusercontent.com/Rida94/Nametag-Addon/master/version_file").openStream();
         } catch
                 (MalformedURLException e) {
             // TODO Auto-generated catch block
